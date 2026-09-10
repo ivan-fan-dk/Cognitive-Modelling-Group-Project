@@ -78,4 +78,37 @@ axes[2].axis('off')
 plt.suptitle(f'Variation along Principal Component {pc_index + 1}')
 plt.tight_layout()
 # plt.show()
-plt.savefig(f"PC{pc_index+1}.svg")
+#plt.savefig(f"PC{pc_index+1}.svg")
+
+
+
+# Extract percentage of variance explained by each component
+explained_variance = pca.explained_variance_ratio_ * 100
+pc_labels = [f'PC{i+1}' for i in range(len(explained_variance))]
+
+# Create figure
+plt.figure(figsize=(10, 5))
+
+# Plot individual bar chart
+bars = plt.bar(pc_labels, explained_variance, color='skyblue', edgecolor='navy', alpha=0.8, label='Individual Variance')
+
+# Overlay cumulative variance step line (optional but helpful)
+cumulative_variance = np.cumsum(explained_variance)
+plt.plot(pc_labels, cumulative_variance, color='crimson', marker='o', linewidth=2, label='Cumulative Variance')
+
+# Aesthetics and annotations
+plt.xlabel('Principal Components', fontsize=11)
+plt.ylabel('Percentage of Variance Explained (%)', fontsize=11)
+plt.title('Variance Explained by Top 20 Principal Components', fontsize=13, fontweight='bold')
+plt.grid(axis='y', linestyle='--', alpha=0.5)
+plt.legend(loc='center right')
+
+# Add percentage labels above each bar
+for bar in bars:
+    height = bar.get_height()
+    plt.text(bar.get_x() + bar.get_width()/2., height + 0.5,
+             f'{height:.1f}%', ha='center', va='bottom', fontsize=8)
+
+plt.tight_layout()
+plt.savefig(f"Bar_plot{n_components}.svg")
+
