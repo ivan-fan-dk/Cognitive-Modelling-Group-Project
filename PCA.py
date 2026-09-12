@@ -12,28 +12,29 @@ import numpy as np
 from imageio.v2 import imread
 from sklearn.decomposition import PCA
 
-folder_path = 'Images'
+def get_pca():
+    folder_path = 'Images'
+    image_vectors = []
 
-image_vectors = []
-
-for filename in os.listdir(folder_path):
-    if filename.lower().endswith('.jpg'):
-        img_path = os.path.join(folder_path, filename)
-        img = imread(img_path)
-        
-        flat_img = img.flatten()
-        image_vectors.append(flat_img)
-
-
-X = np.array(image_vectors, dtype=np.float32)
+    for filename in os.listdir(folder_path):
+        if filename.lower().endswith('.jpg'):
+            img_path = os.path.join(folder_path, filename)
+            img = imread(img_path)
+            
+            flat_img = img.flatten()
+            image_vectors.append(flat_img)
 
 
-X_centered = X - np.mean(X, axis=0)
+    X = np.array(image_vectors, dtype=np.float32)
 
-n_components = 20  
-pca = PCA(n_components=n_components)
 
-X_pca = pca.fit_transform(X_centered)
+    X_centered = X - np.mean(X, axis=0)
+
+    n_components = 20  
+    pca = PCA(n_components=n_components)
+
+    X_pca = pca.fit_transform(X_centered)
+    return X_pca
 
 print(f"Original shape: {X_centered.shape}")  # e.g., (N, 10000)
 print(f"Reduced shape: {X_pca.shape}")        # e.g., (N, 50)
