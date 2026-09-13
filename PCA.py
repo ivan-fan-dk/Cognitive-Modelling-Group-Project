@@ -1,14 +1,5 @@
 import os
 import numpy as np
-from imageio.v2 import imread, imwrite
-
-folder_path = 'Images'
-
-
-
-
-import os
-import numpy as np
 from imageio.v2 import imread
 from sklearn.decomposition import PCA
 
